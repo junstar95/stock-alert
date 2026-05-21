@@ -1,0 +1,13 @@
+# 비밀 정보 - 절대 GitHub에 올라가면 안 됨
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# VS Code
+.vscode/
+
+# Streamlit 캐시
+.streamlit/cache/
