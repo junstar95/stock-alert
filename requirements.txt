@@ -1,0 +1,6 @@
+streamlit
+pandas
+pykrx
+holidays
+beautifulsoup4
+requests
