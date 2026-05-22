@@ -4,5 +4,5 @@ pykrx
 holidays
 beautifulsoup4
 requests
-setuptools
+setuptools<81
 lxml
