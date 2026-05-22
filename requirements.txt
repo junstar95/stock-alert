@@ -4,3 +4,5 @@ pykrx
 holidays
 beautifulsoup4
 requests
+setuptools
+lxml
