@@ -243,3 +243,35 @@ else:
     st.info("👆 위 버튼을 눌러 분석을 시작하세요.")
     st.subheader("📄 CSV 원본 데이터 미리보기")
     st.dataframe(df, use_container_width=True, hide_index=True)
+
+    # ===== 디버그 섹션 (임시) =====
+with st.expander("🔧 디버그 정보", expanded=False):
+    st.write("**환경 변수 확인**")
+    st.write(f"- KRX_ID 설정됨: {bool(os.environ.get('KRX_ID'))}")
+    st.write(f"- KRX_PW 설정됨: {bool(os.environ.get('KRX_PW'))}")
+    st.write(f"- KRX_ID 길이: {len(os.environ.get('KRX_ID', ''))}")
+    
+    if st.button("🧪 KRX 연결 테스트"):
+        try:
+            today = datetime.now().date()
+            while today.weekday() >= 5:
+                today -= timedelta(days=1)
+            ymd = today.strftime("%Y%m%d")
+            st.write(f"테스트 날짜: {ymd}")
+            
+            with st.spinner("KOSPI 종목 가져오는 중..."):
+                kospi = stock.get_market_ticker_list(ymd, market="KOSPI")
+            st.write(f"✅ KOSPI 종목 수: **{len(kospi)}개**")
+            
+            with st.spinner("KOSDAQ 종목 가져오는 중..."):
+                kosdaq = stock.get_market_ticker_list(ymd, market="KOSDAQ")
+            st.write(f"✅ KOSDAQ 종목 수: **{len(kosdaq)}개**")
+            
+            if kospi:
+                name = stock.get_market_ticker_name(kospi[0])
+                st.write(f"테스트 - 첫 종목: {kospi[0]} = {name}")
+            
+            if len(kospi) == 0 and len(kosdaq) == 0:
+                st.error("⚠️ KRX가 응답을 안 주거나 빈 데이터를 돌려주고 있음 → KRX 차단 의심")
+        except Exception as e:
+            st.error(f"❌ 에러: {type(e).__name__}: {e}")
